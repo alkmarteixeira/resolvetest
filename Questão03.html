@@ -1,0 +1,137 @@
+<html lang="pt-br">
+<head>
+    <title>Arv</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<style>
+	table, th, td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	th, td {
+		padding: 10px;
+	}
+</style>
+</head>
+<body>
+	<div style="margin-left:25%">
+		<br>
+		<br>
+		<br>
+		<table style="width:50%" id="tblArvoreBinaria">
+			<tr style="background-color:blue">
+				<td>Índice</td>
+				<td>info</td>		
+				<td>ìndice nó a direita</td>
+				<td>ìndice nó a esquerda</td>
+			</tr>
+		</table>
+		<button onclick="inserirLinhaTabela()">Inserir nó</button>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+
+	function inserirLinhaTabela() {
+        var table = document.getElementById("tblArvoreBinaria");
+        var numOfRows = table.rows.length;
+        var numOfCols = table.rows[numOfRows-1].cells.length;
+        var newRow = table.insertRow(numOfRows);
+        for (var j = 0; j < numOfCols; j++) {
+			if(j == 0){
+				newCell = newRow.insertCell(j);
+				newCell.innerHTML = numOfRows;
+			}else{
+				newCell = newRow.insertCell(j);
+				newCell.innerHTML = "<input type='number' onblur='isValidBST(this)'>";
+			}
+        }
+    }
+	inserirLinhaTabela();
+	
+	function isValidBST(elm) {
+		var tbl = document.getElementById('tblArvoreBinaria');
+		var rCount = tbl.rows.length;
+		var raiz = tbl.rows[1].cells[1].children[0].valueAsNumber
+		if (isNaN(raiz)){
+			alert("A raiz não pode ser nula");
+		}else{
+			try {
+				if (elm.parentNode.cellIndex > 1){
+					var rIndexUpdate = elm.offsetParent.parentNode.rowIndex;
+					var valorNoPai = elm.offsetParent.parentNode.cells[1].firstChild.valueAsNumber;
+					var result = true;
+					
+					//Recuperando valor informado para o nó da direita e validando;
+					var indiceNoDireita = tbl.rows[rIndexUpdate].cells[2].children[0].valueAsNumber;
+					if (!isNaN(indiceNoDireita)){
+						if(valideIndice(indiceNoDireita, rCount, rIndexUpdate)){
+							var valorNoDireita = tbl.rows[indiceNoDireita].cells[1].children[0].valueAsNumber;
+							if (!isNaN(valorNoDireita))
+							{
+								result = valideNoDireita(valorNoDireita, valorNoPai);
+								if (!result)
+								{
+									alert("O campo info no indice informado não é compatível com a estrutura de uma BST!");
+									tbl.rows[rIndexUpdate].cells[2].children[0].value = "";
+								}
+							}
+							else 
+							{
+								alert("O campo info no indice informado para o nó da direita é inválido!");
+								tbl.rows[rIndexUpdate].cells[2].children[0].value = "";
+							}
+						}else{
+							tbl.rows[rIndexUpdate].cells[2].children[0].value = "";
+							alert("Indice informado para nó da direita é inválido");
+						}
+					}
+
+					//Recuperando valor informado para o nó da esquerda e validando;
+					var indiceNoEsquerda = tbl.rows[rIndexUpdate].cells[3].children[0].valueAsNumber;
+					if (!isNaN(indiceNoEsquerda)){
+						if(valideIndice(indiceNoEsquerda, rCount, rIndexUpdate)){
+							var valorNoEsquerda = tbl.rows[indiceNoEsquerda].cells[1].children[0].valueAsNumber;
+							if (!isNaN(valorNoEsquerda)){
+								result = valideNoEsquerda(valorNoEsquerda, valorNoPai);
+								if (!result)
+								{
+									alert("O campo info no indice informado não é compatível com a estrutura de uma BST!");
+									tbl.rows[rIndexUpdate].cells[2].children[0].value = "";
+								}
+							}
+							else 
+							{
+								alert("O campo info no indice informado para o nó da esquerda é inválido!");
+								tbl.rows[rIndexUpdate].cells[3].children[0].value = "";
+							}
+						}else{
+							tbl.rows[rIndexUpdate].cells[3].children[0].value = "";
+							alert("Indice informado para nó da esquerda é inválido");
+						}
+					}
+				}
+			} catch (e) {
+				alert(e);
+			}
+		}
+	}
+	
+	var valideNoEsquerda = function (valorNoEsquerda, valorNoPai){
+		if (valorNoEsquerda < valorNoPai)
+			return true
+		return false;
+	}
+	
+	var valideNoDireita = function (valorNoDireita, valorNoPai){
+		if (valorNoDireita > valorNoPai)
+			return true
+		return false;
+	};
+	
+	var valideIndice = function (indice, rCount, rIndexUpdate){
+		if (indice > (rCount - 1) || indice == rIndexUpdate)
+			return false;
+		return true;
+	}
+	
+</script>

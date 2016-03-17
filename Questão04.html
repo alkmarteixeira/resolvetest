@@ -1,0 +1,29 @@
+<html lang="pt-br">
+<head>
+    <title>Closures</title>
+	<meta charset="utf-8">
+</head>
+<body>
+    In my life, I used the following web search engines:<br/>
+    <a href="//www.yahoo.com">Yahoo!</a><br/>
+    <a href="//www.altavista.com">AltaVista</a><br/>
+    <a href="//www.google.com">Google</a><br/>
+
+</body>
+</html>
+<script type="text/javascript">
+		
+	var registerHandlers = function () {
+		var as = document.getElementsByTagName('a');
+		for (var i = as.length -1; i >= 0 ; i--) {
+			as[i].id = i;
+			as[i].onclick = function(e) {
+				alert(e.currentTarget.id);
+				return false;
+			}
+		}
+	};
+	registerHandlers();
+
+    
+</script>

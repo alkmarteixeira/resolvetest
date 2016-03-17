@@ -1,0 +1,64 @@
+<html lang="pt-br">
+<head>
+    <title>The Game</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<h3>Escolha sua arma!</h3>
+	<form>
+		<input type="radio" onclick="jogar()" name="escolha" value="pedra"> Pedra<br>
+		<input type="radio" onclick="jogar()" name="escolha" value="papel"> Papel<br>
+		<input type="radio" onclick="jogar()" name="escolha" value="tesoura"> Tesoura<br>
+		<br>
+		<p id="escolhaComputador">
+		</p>
+		<p id="escolhaUsuario">
+		</p>
+		<p id="resultado"></p>
+	</form> 
+</body>
+</html>
+<script type="text/javascript">
+	var compare = function (choice1, choice2) {
+        if (choice1 === choice2)
+            return ("Empate!");
+        else if (choice1 === "pedra") {
+            if (choice2 === "tesoura")
+                return ("pedra vence");
+            else {
+                return ("papel vence");
+            }
+        }
+        else if (choice1 === "papel") {
+            if (choice2 === "pedra")
+                return "papel vence";
+            else {
+                return "tesoura vence";
+            }
+        }
+        else if (choice1 === "tesoura") {
+            if (choice2 === "pedra")
+                return "pedra vence";
+            else {
+                return "tesoura vence";
+            }
+        }
+    };
+	
+	function jogar(){
+		var escolhaUsuario = document.querySelector('input[name="escolha"]:checked').value;		
+		var escolhaComputador = Math.random();
+		if (escolhaComputador < 0.34) {
+			escolhaComputador = "pedra";
+		} else if (escolhaComputador <= 0.67) {
+			escolhaComputador = "papel";
+		} else {
+			escolhaComputador = "tesoura";
+		}
+		
+	    document.getElementById("escolhaUsuario").innerHTML = "Usuario: " + escolhaUsuario;
+		document.getElementById("escolhaComputador").innerHTML = "Computador: " + escolhaComputador;
+		document.getElementById("resultado").innerHTML = "Resultado: " + compare(escolhaUsuario, escolhaComputador);
+	};
+    
+</script>
